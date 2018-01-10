@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
+import { Link } from "react-router-dom";
+import Results from "./Results";
 
 class Search extends Component {
   state = {
@@ -10,6 +12,19 @@ class Search extends Component {
   };
 
   componentDidMount() {}
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+
+    return <Results />;
+  };
 
   render() {
     return (
@@ -39,7 +54,7 @@ class Search extends Component {
               type="text"
               className="form-control"
               name="startYear"
-              placeholder="Enter Start Year"
+              placeholder="Enter Start Year: YYYYMMDD"
               value={this.state.startYear}
               onChange={this.handleInputChange}
             />
@@ -51,13 +66,12 @@ class Search extends Component {
               className="form-control"
               id="formGroupExampleInput3"
               name="endYear"
-              placeholder="Enter End Year"
+              placeholder="Enter End Year: YYYYMMDD"
               value={this.state.endYear}
               onChange={this.handleInputChange}
             />
           </div>
-
-          <a href="/results">
+          <Link to="/results" activeClassName="active">
             <input
               type="submit"
               className="btn btn-info"
@@ -68,9 +82,10 @@ class Search extends Component {
                   this.state.endYear
                 )
               }
+              onClick={this.handleFormSubmit}
               value="Submit"
-            />
-          </a>
+            />{" "}
+          </Link>
         </form>
       </Container>
     );
