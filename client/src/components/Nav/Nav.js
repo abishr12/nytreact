@@ -6,7 +6,7 @@ const Nav = () => (
       <a href="/" className="navbar-brand">
         Search
       </a>
-      
+
       <a href="/results" className="navbar-brand">
         Results
       </a>
