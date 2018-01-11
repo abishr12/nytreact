@@ -5,7 +5,8 @@ var request = require("request");
 module.exports = {
   //Display all article in results page
   createAll: function(req, res) {
-    console.log("*".repeat(100), req.body);
+    console.log("Hello");
+    console.log(req.body);
     // request.get(
     //   {
     //     url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
