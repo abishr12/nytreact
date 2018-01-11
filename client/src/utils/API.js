@@ -20,7 +20,7 @@ export default {
 
   //Send Article Data
   getArticles: function(articleData) {
-    console.log("Grabbing Articles");
+    console.log("Grabbing Articles...");
     return axios.post("/api/articles/find", articleData);
   }
 };

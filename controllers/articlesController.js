@@ -5,24 +5,32 @@ var request = require("request");
 module.exports = {
   //Display all article in results page
   createAll: function(req, res) {
-    console.log("Hello");
+    console.log("*".repeat(100));
     console.log(req.body);
-    res.send("Got the body");
-    // request.get(
-    //   {
-    //     url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-    //     qs: {
-    //       "api-key": "a242a14e2dc34c8283afbc9a8c886b63",
-    //       q: req.body.topic,
-    //       begin_date: req.body.startYear,
-    //       end_date: req.body.endYear
-    //     }
-    //   },
-    //   function(err, response, body) {
-    //     body = JSON.parse(body);
-    //     console.log(body);
-    //   }
-    // );
+
+    request.get(
+      {
+        url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
+        qs: {
+          "api-key": "a242a14e2dc34c8283afbc9a8c886b63",
+          q: req.body.topic,
+          begin_date: req.body.startYear,
+          end_date: req.body.endYear
+        }
+      },
+      function(err, response, body) {
+        console.log("*".repeat(100));
+        body = JSON.parse(body);
+        console.log(body.response.docs);
+        let newsArticle = body.response.docs.forEach(article => {
+          db.Article.create({
+            title: article.headline.main,
+            date: article.pub_date,
+            url: article.web_url
+          });
+        });
+      }
+    );
     // db.Article.find(req.query)
     //   .sort({ date: -1 })
     //   .then(dbModel => res.json(dbModel))
