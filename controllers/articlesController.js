@@ -7,6 +7,7 @@ module.exports = {
   createAll: function(req, res) {
     console.log("Hello");
     console.log(req.body);
+    res.send("Got the body");
     // request.get(
     //   {
     //     url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
