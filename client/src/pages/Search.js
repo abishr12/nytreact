@@ -22,6 +22,7 @@ class Search extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
+    console.log("clicked");
     if (this.state.topic && this.state.startYear && this.state.endYear) {
       API.getArticles({
         topic: this.state.topic,
@@ -43,7 +44,7 @@ class Search extends Component {
             </Jumbotron>
           </Col>
         </Row>
-        <form>
+        <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
             <label>Topic</label>
             <input
@@ -78,21 +79,16 @@ class Search extends Component {
               onChange={this.handleInputChange}
             />
           </div>
-          <Link to="/results">
-            <input
-              type="submit"
-              className="btn btn-info"
-              disabled={
-                !(
-                  this.state.topic &&
-                  this.state.startYear &&
-                  this.state.endYear
-                )
-              }
-              onSubmit={this.handleFormSubmit}
-              value="Submit"
-            />{" "}
-          </Link>
+          {/* <Link to="/results"> */}
+          <input
+            type="submit"
+            className="btn btn-info"
+            disabled={
+              !(this.state.topic && this.state.startYear && this.state.endYear)
+            }
+            value="Submit"
+          />{" "}
+          {/* </Link> */}
         </form>
       </Container>
     );
