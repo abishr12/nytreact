@@ -19,7 +19,7 @@ export default {
   // }
 
   //Send Article Data
-  getArticles: function() {
-    return axios.get("/api/find-articles");
+  getArticles: function(articleData) {
+    return axios.post("/api/find-articles", articleData);
   }
 };
