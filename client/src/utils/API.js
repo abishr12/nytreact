@@ -19,8 +19,11 @@ export default {
   // }
 
   //Send Article Data
-  getArticles: function(articleData) {
+  getArticlesFromAPI: function(articleData) {
     console.log("Grabbing Articles...");
     return axios.post("/api/articles/find", articleData);
+  },
+  retrieveArticleResults: function() {
+    return axios.get("api/articles/find");
   }
 };

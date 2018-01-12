@@ -3,8 +3,12 @@ var request = require("request");
 
 // Defining methods for the booksController
 module.exports = {
-  //Display all article in results page
+  //Retrieve Search Results From NYT API
   createAll: function(req, res) {
+    //Emptying The Database Before Retrieving The Search
+    // db.Article.collection.drop().then(() => {
+    //   res.send("DB Emptied");
+    // });
     console.log("*".repeat(100));
     console.log(req.body);
 
@@ -35,6 +39,28 @@ module.exports = {
     //   .sort({ date: -1 })
     //   .then(dbModel => res.json(dbModel))
     //   .catch(err => res.status(422).json(err));
+  },
+
+  //Pull Articles From MongoDB
+  pullArticles: function(req, res) {
+    console.log("*".repeat(100));
+    console.log("Inside Pull Articles");
+    console.log("*".repeat(100));
+
+    db.Article.find({})
+      .limit(20)
+      .then(function(dbArticle) {
+        // If we were able to successfully find Articles, send them back to the client
+        var hbsObject = {
+          article: dbArticle
+        };
+        //console.log(hbsObject);
+        res.render("index", hbsObject);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
   }
 
   // Save Article

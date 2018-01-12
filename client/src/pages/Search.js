@@ -24,7 +24,7 @@ class Search extends Component {
     event.preventDefault();
     console.log("clicked");
     if (this.state.topic && this.state.startYear && this.state.endYear) {
-      API.getArticles({
+      API.getArticlesFromAPI({
         topic: this.state.topic,
         startYear: this.state.startYear,
         endYear: this.state.endYear
