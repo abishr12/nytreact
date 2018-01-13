@@ -1,5 +1,6 @@
 const db = require("../models");
 var request = require("request");
+const ObjectId = require("mongodb").ObjectID;
 
 // Defining methods for the booksController
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
     // });
     console.log("*".repeat(100));
     console.log(req.body);
-
+    db.Article.collection.drop();
     request.get(
       {
         url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
@@ -55,21 +56,52 @@ module.exports = {
           article: dbArticle
         };
         //console.log(hbsObject);
-        res.render("index", hbsObject);
+        res.send(hbsObject);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
+  },
+
+  // Save Article
+
+  saveArticles: function(req, res) {
+    articleId = req.params.id;
+    console.log("*".repeat(100));
+    console.log("Inside Saved Articles");
+    db.Article.update(
+      { _id: ObjectId(articleId) },
+      { $set: { saved: true } },
+      () => {
+        db.Article.find({ _id: ObjectId(articleId) })
+          .then(response => console.log(response))
+          .catch(function(err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+          });
+      }
+    );
+  },
+
+  //Grab Saved Articles
+
+  getSavedArticles: function(req, res) {
+    db.Article.find({ saved: true })
+      .limit(20)
+      .then(function(dbArticle) {
+        // If we were able to successfully find Articles, send them back to the client
+        var hbsObject = {
+          article: dbArticle
+        };
+        //console.log(hbsObject);
+        res.send(hbsObject);
       })
       .catch(function(err) {
         // If an error occurred, send it to the client
         res.json(err);
       });
   }
-
-  // Save Article
-
-  // save: function(req, res) {
-  //   db.Article.findOneAndUpdate({ _id: req.params.id }, req.body)
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // }
   // update: function(req, res) {
   //   db.Book.findOneAndUpdate({ _id: req.params.id }, req.body)
   //     .then(dbModel => res.json(dbModel))
