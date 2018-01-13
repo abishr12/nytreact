@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Results from "./Results";
 import API from "../utils/API";
 
@@ -9,7 +9,8 @@ class Search extends Component {
   state = {
     topic: "",
     startYear: "",
-    endYear: ""
+    endYear: "",
+    redirectToResults: false
   };
 
   handleInputChange = event => {
@@ -29,12 +30,18 @@ class Search extends Component {
         startYear: this.state.startYear,
         endYear: this.state.endYear
       })
-        .then(res => console.log(res))
+        .then(res => {
+          console.log(res);
+          this.setState({ redirectToResults: true });
+        })
         .catch(err => console.log(err));
     }
   };
 
   render() {
+    if (!this.state.redirectToResults) {
+      return <Redirect to="/results" />;
+    }
     return (
       <Container fluid>
         <Row>
@@ -79,7 +86,6 @@ class Search extends Component {
               onChange={this.handleInputChange}
             />
           </div>
-          {/* <Link to="/results"> */}
           <input
             type="submit"
             className="btn btn-info"
@@ -88,7 +94,6 @@ class Search extends Component {
             }
             value="Submit"
           />{" "}
-          {/* </Link> */}
         </form>
       </Container>
     );

@@ -6,13 +6,13 @@ const ObjectId = require("mongodb").ObjectID;
 module.exports = {
   //Retrieve Search Results From NYT API
   createAll: function(req, res) {
-    //Emptying The Database Before Retrieving The Search
-    // db.Article.collection.drop().then(() => {
-    //   res.send("DB Emptied");
-    // });
     console.log("*".repeat(100));
     console.log(req.body);
-    db.Article.collection.drop();
+
+    //Emptying The Database Before Retrieving The Search
+    db.Article.remove({ saved: false }).then(() => {
+      console.log("DB Emptied");
+    });
     request.get(
       {
         url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
@@ -36,10 +36,6 @@ module.exports = {
         });
       }
     );
-    // db.Article.find(req.query)
-    //   .sort({ date: -1 })
-    //   .then(dbModel => res.json(dbModel))
-    //   .catch(err => res.status(422).json(err));
   },
 
   //Pull Articles From MongoDB
@@ -48,7 +44,7 @@ module.exports = {
     console.log("Inside Pull Articles");
     console.log("*".repeat(100));
 
-    db.Article.find({})
+    db.Article.find({ saved: false })
       .limit(20)
       .then(function(dbArticle) {
         // If we were able to successfully find Articles, send them back to the client
@@ -102,15 +98,4 @@ module.exports = {
         res.json(err);
       });
   }
-  // update: function(req, res) {
-  //   db.Book.findOneAndUpdate({ _id: req.params.id }, req.body)
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // },
-  // remove: function(req, res) {
-  //   db.Book.findById({ _id: req.params.id })
-  //     .then(dbModel => dbModel.remove())
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // }
 };
