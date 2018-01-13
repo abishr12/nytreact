@@ -6,7 +6,7 @@ const ObjectId = require("mongodb").ObjectID;
 module.exports = {
   //Retrieve Search Results From NYT API
   createAll: function(req, res) {
-    console.log("*".repeat(100));
+    //console.log("*".repeat(100));
     console.log(req.body);
 
     //Emptying The Database Before Retrieving The Search
