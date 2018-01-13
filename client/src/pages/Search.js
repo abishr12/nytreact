@@ -39,7 +39,7 @@ class Search extends Component {
   };
 
   render() {
-    if (!this.state.redirectToResults) {
+    if (this.state.redirectToResults) {
       return <Redirect to="/results" />;
     }
     return (
