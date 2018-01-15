@@ -8,6 +8,16 @@ module.exports = {
   createAll: function(req, res) {
     //console.log("*".repeat(100));
     console.log(req.body);
+    var options = {
+      method: "Get",
+      uri: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
+      qs: {
+        "api-key": "a242a14e2dc34c8283afbc9a8c886b63",
+        q: req.body.topic,
+        begin_date: req.body.startYear,
+        end_date: req.body.endYear
+      }
+    };
 
     //Emptying The Database Before Retrieving The Search
     db.Article.remove({ saved: false }).then(() => {

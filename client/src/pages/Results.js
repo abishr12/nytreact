@@ -46,11 +46,6 @@ class Results extends Component {
   }
 
   render() {
-    const { articles } = this.state;
-
-    if (!articles) {
-      return <div>Loading Data...</div>;
-    }
     return (
       <Container fluid>
         <Row>
