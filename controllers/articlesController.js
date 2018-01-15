@@ -1,6 +1,7 @@
 const db = require("../models");
 var request = require("request");
 const ObjectId = require("mongodb").ObjectID;
+var rp = require("request-promise");
 
 // Defining methods for the booksController
 module.exports = {
@@ -9,43 +10,40 @@ module.exports = {
     //console.log("*".repeat(100));
     console.log(req.body);
     var options = {
-      method: "Get",
       uri: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
       qs: {
         "api-key": "a242a14e2dc34c8283afbc9a8c886b63",
         q: req.body.topic,
         begin_date: req.body.startYear,
         end_date: req.body.endYear
-      }
+      },
+      json: true
     };
 
     //Emptying The Database Before Retrieving The Search
     db.Article.remove({ saved: false }).then(() => {
       console.log("DB Emptied");
     });
-    request.get(
-      {
-        url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-        qs: {
-          "api-key": "a242a14e2dc34c8283afbc9a8c886b63",
-          q: req.body.topic,
-          begin_date: req.body.startYear,
-          end_date: req.body.endYear
-        }
-      },
-      function(err, response, body) {
+    rp(options)
+      .then(function(res) {
         console.log("*".repeat(100));
-        body = JSON.parse(body);
-        console.log(body.response.docs);
-        let newsArticle = body.response.docs.forEach(article => {
+
+        console.log(res);
+        // console.log("*".repeat(100));
+        // console.log(body);
+
+        // console.log(body.response.docs);
+        let newsArticle = res.response.docs.forEach(article => {
           db.Article.create({
             title: article.headline.main,
             date: article.pub_date,
             url: article.web_url
           });
         });
-      }
-    );
+      })
+      .done(results => {
+        res.send(results);
+      });
   },
 
   //Pull Articles From MongoDB

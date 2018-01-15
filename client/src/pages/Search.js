@@ -31,7 +31,7 @@ class Search extends Component {
         endYear: this.state.endYear
       })
         .then(res => {
-          console.log("hello");
+          console.log(res);
           this.setState({ redirectToResults: true });
         })
         .catch(err => console.log(err));
