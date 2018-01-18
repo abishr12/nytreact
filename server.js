@@ -9,7 +9,10 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV === "production") {
+// Add routes, both API and view
+app.use(routes);
+
+if (true) {
   app.use(express.static("client/build"));
 
   const path = require("path");
@@ -17,9 +20,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
-// Add routes, both API and view
-app.use(routes);
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/nytreact";
 // Set up promises with mongoose
