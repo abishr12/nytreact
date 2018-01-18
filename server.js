@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 // Add routes, both API and view
 app.use(routes);
 
+//Minor onChange
 if (true) {
   app.use(express.static("client/build"));
 
