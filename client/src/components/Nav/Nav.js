@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Nav = props => (
   <nav className="navbar navbar-inverse navbar-top">
     <div className="container-fluid">
-      <a
-        href="/"
+      <Link
+        to="/"
         onClick={() => props.handlePageChange("Search")}
         className={
           props.currentPage === "Search"
@@ -13,10 +14,10 @@ const Nav = props => (
         }
       >
         Search
-      </a>
+      </Link>
 
-      <a
-        href="/results"
+      <Link
+        to="/results"
         className={
           props.currentPage === "Results"
             ? "navbar-brand active"
@@ -24,10 +25,10 @@ const Nav = props => (
         }
       >
         Results
-      </a>
+      </Link>
 
-      <a
-        href="/saved-articles"
+      <Link
+        to="/saved-articles"
         className={
           props.currentPage === "SavedArticles"
             ? "navbar-brand active"
@@ -35,7 +36,7 @@ const Nav = props => (
         }
       >
         Saved Articles
-      </a>
+      </Link>
     </div>
   </nav>
 );
